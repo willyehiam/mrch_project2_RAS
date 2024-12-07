@@ -1,0 +1,20 @@
+{
+    "name": "MRCH.Common",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:2e7d06324bb40437f864b52eb770c3c5",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:b03658d7f2385bb449a3cbe8db024f96"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
