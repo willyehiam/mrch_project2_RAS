@@ -1,37 +1,82 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class BalconyTrigger : MonoBehaviour
+public class TriggerZoneAssetDisplay : MonoBehaviour
 {
-    // Assign the sprite GameObject in the Inspector
-    [SerializeField] private GameObject spriteToDisplay;
+    [Header("Asset Settings")]
+    public List<GameObject> assetsToDisplay; // 需要显示的资产列表
+    public Transform spawnParent; // 父级对象，用于组织生成的资产
+    public Vector3 spawnOffset; // 每个资产之间的偏移量
+    public int maxAssetsToDisplay = 5; // 最大显示的资产数量
 
-    void Awake()
+    [Header("UI Settings")]
+    public Slider assetCountSlider; // 滑块，用于控制显示的资产数量
+    public Text assetCountText; // 文本，用于显示当前数量
+
+    private List<GameObject> spawnedAssets = new List<GameObject>(); // 存储生成的资产实例
+
+    private void Start()
     {
-        if (spriteToDisplay != null)
+        // 初始化UI
+        if (assetCountSlider != null)
         {
-            spriteToDisplay.SetActive(false);  // Ensure the sprite is initially hidden
+            assetCountSlider.maxValue = maxAssetsToDisplay;
+            assetCountSlider.value = maxAssetsToDisplay;
+            assetCountSlider.onValueChanged.AddListener(UpdateDisplayedAssets);
         }
-        else
+
+        if (assetCountText != null)
         {
-            Debug.LogWarning("Sprite GameObject not assigned in the Inspector.");
+            assetCountText.text = $"Assets: {maxAssetsToDisplay}";
         }
     }
 
-    void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider other)
     {
-        if (spriteToDisplay != null && collider.CompareTag("Player"))
+        if (other.CompareTag("Player")) // 确保是玩家触发
         {
-            spriteToDisplay.SetActive(true);  // Show the sprite
+            DisplayAssets((int)assetCountSlider.value);
         }
     }
 
-    void OnTriggerExit(Collider collider)
+    private void OnTriggerExit(Collider other)
     {
-        if (spriteToDisplay != null && collider.CompareTag("Player"))
+        if (other.CompareTag("Player")) // 确保是玩家触发
         {
-            spriteToDisplay.SetActive(false);  // Hide the sprite
+            ClearAssets();
+        }
+    }
+
+    private void DisplayAssets(int count)
+    {
+        ClearAssets(); // 清空之前的资产
+
+        for (int i = 0; i < count; i++)
+        {
+            if (i < assetsToDisplay.Count) // 确保不超过列表中的资产数量
+            {
+                GameObject asset = Instantiate(assetsToDisplay[i], spawnParent);
+                asset.transform.localPosition = i * spawnOffset;
+                spawnedAssets.Add(asset);
+            }
+        }
+    }
+
+    private void ClearAssets()
+    {
+        foreach (var asset in spawnedAssets)
+        {
+            Destroy(asset);
+        }
+        spawnedAssets.Clear();
+    }
+
+    private void UpdateDisplayedAssets(float value)
+    {
+        if (assetCountText != null)
+        {
+            assetCountText.text = $"Assets: {(int)value}";
         }
     }
 }
