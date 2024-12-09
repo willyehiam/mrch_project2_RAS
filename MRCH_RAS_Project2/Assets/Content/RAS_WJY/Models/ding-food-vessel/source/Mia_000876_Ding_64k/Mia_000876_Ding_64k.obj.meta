@@ -3,7 +3,12 @@ guid: ba99fd8bb85e942cfa27a470c9e1c9ee
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mia_000876_Ding_64k
+    second: {fileID: 2100000, guid: 11b7e053d3097429da9b77328aa2df64, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
